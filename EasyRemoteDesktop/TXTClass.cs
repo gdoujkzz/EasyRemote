@@ -678,13 +678,14 @@ namespace EasyRemoteDesktop
             }
         }
 
-        public void txtBatchDelete(string filepath)
+        public void txtBatchDelete(string filePath)
         {
-            if (File.Exists(filepath))
+            if (File.Exists(filePath))
             {
-                File.Delete(filepath);
+                File.Delete(filePath);
             }
-            
+            this.FileNotExistAndCreate(filePath);
+
         }
 
         /// <summary>

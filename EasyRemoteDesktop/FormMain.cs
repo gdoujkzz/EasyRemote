@@ -369,32 +369,34 @@ namespace EasyRemoteDesktop
                 {
                     excelPath = fileDialog.FileName;
                 }
-                if (excelPath == null)
+                else
                 {
-                    MessageBox.Show("清选择文件");
                     return;
                 }
                 var serverInfos = Excel.Load<ServerInfo>(excelPath);
                 foreach (var server in serverInfos)
                 {
-                    string userName = server.UserName.Split('/')[0].ToString();
-                    string pwd = server.Password.Split('/')[1].ToString();
-                    BetterListViewItem item = new BetterListViewItem(new string[] {
+                    if (server.Ip != null)
+                    {
+                        string userName = server.UserName.Split('/')[0].ToString();
+                        string pwd = server.Password.Split('/')[1].ToString();
+                        BetterListViewItem item = new BetterListViewItem(new string[] {
                     server.Ip.ToString(),
                     userName,
                     pwd,
                     server.Remark
                     });
-                    item.ImageIndex = 0;
-                    string data = string.Format("{0}|{1}|{2}|{3}", server.Ip, userName, pwd, server.Remark);
-                    new TXTClass().txtWrite(Global.dbFile, data);
+                        item.ImageIndex = 0;
+                        string data = string.Format("{0}|{1}|{2}|{3}", server.Ip, userName, pwd, server.Remark);
+                        new TXTClass().txtWrite(Global.dbFile, data);
+                    }
                     //this.betterListView1.Items.Add(item);
                 }
                 BindsListViewDataSource();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("请检查用户和密码，以及备注是否为空");
             }
         }
 
